@@ -5,10 +5,20 @@
 #include <string.h>
 
 
+//============================================================================
+//                           Struct declaration
+//============================================================================
+typedef struct
+{
+  u_char data;
+  int width;
+  int length;
+}image;
 
 //============================================================================
 //                           Function declarations
 //============================================================================
+// OBSOLETE
 // Write the image contained in <data> (of size <width> * <height>)
 // into plain RGB ppm file <file>
 void ppm_write_to_file(int width, int height, u_char* data, FILE* file);
@@ -17,6 +27,7 @@ void ppm_write_to_file(int width, int height, u_char* data, FILE* file);
 // instead of the image data
 void ppm_write_to_file2(int width, int height, u_char* data, char* file_name); 
 
+// OBSOLETE
 // Read the image contained in plain RGB ppm file <file>
 // into <data> and set <width> and <height> accordingly
 // Warning: data is malloc_ed, don't forget to free it
@@ -97,6 +108,7 @@ int main(int argc, char* argv[])
 //============================================================================
 //                           Function definitions
 //============================================================================
+// OBSOLETE
 void ppm_write_to_file(int width, int height, u_char* data, FILE* file)
 {
   // Write header
@@ -119,6 +131,7 @@ void ppm_write_to_file2(int width, int height, u_char* data, char* file_name)
   fclose(file);
 }
 
+// OBSOLETE
 void ppm_read_from_file(int *width, int *height, u_char** data, FILE* file)
 {
   // Read file header
