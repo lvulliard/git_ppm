@@ -10,9 +10,9 @@
 //============================================================================
 typedef struct
 {
-  u_char data;
+  u_char* data;
   int width;
-  int length;
+  int height;
 }image;
 
 //============================================================================
@@ -27,6 +27,9 @@ void ppm_write_to_file(int width, int height, u_char* data, FILE* file);
 // instead of the image data
 void ppm_write_to_file2(int width, int height, u_char* data, char* file_name); 
 
+// Same function as ppm_write_to_file2, writing from a struct image
+void ppm_write_to_file3(image my_image, char* file_name);
+
 // OBSOLETE
 // Read the image contained in plain RGB ppm file <file>
 // into <data> and set <width> and <height> accordingly
@@ -36,6 +39,9 @@ void ppm_read_from_file(int *width, int *height, u_char** data, FILE* file);
 // Same function as ppm_read_from_file, taking the name of the image file
 // instead of the image data
 void ppm_read_from_file2(int *width, int *height, u_char** data, char* file_name);
+
+// Same function as ppm_read_from_file2, reading in a struct image
+void ppm_read_from_file3(image my_image, char* file_name);
 
 // Desaturate (transform to B&W) <image> (of size <width> * <height>)
 void ppm_desaturate(u_char* image, int width, int height);
@@ -131,6 +137,19 @@ void ppm_write_to_file2(int width, int height, u_char* data, char* file_name)
   fclose(file);
 }
 
+void ppm_write_to_file3(image my_image, char* file_name)
+{
+  FILE* file = fopen(file_name, "wb");
+  
+  // Write header
+  fprintf(file, "P6\n%d %d\n255\n", my_image.width, my_image.height);
+
+  // Write pixels
+  fwrite(my_image.data, 3,my_image.width*my_image.height, file);
+
+  fclose(file);
+}
+
 // OBSOLETE
 void ppm_read_from_file(int *width, int *height, u_char** data, FILE* file)
 {
@@ -146,6 +165,25 @@ void ppm_read_from_file(int *width, int *height, u_char** data, FILE* file)
 
 void ppm_read_from_file2(int *width, int *height, u_char** data, char* file_name)
 {
+  FILE* file = fopen(file_name, "rb");
+  
+  // Read file header
+  fscanf(file, "P6\n%d %d\n255\n", width, height);
+
+  // Allocate memory according to width and height
+  *data = (u_char*) malloc(3 * (*width) * (*height) * sizeof(**data));
+
+  // Read the actual image data
+  fread(*data, 3, (*width) * (*height), file);
+
+  fclose(file);
+}
+
+void ppm_read_from_file3(image my_image, char* file_name)
+{
+  int* width = &my_image.width;
+  int* height = &my_image.height;
+  u_char** data = &my_image.data;
   FILE* file = fopen(file_name, "rb");
   
   // Read file header
