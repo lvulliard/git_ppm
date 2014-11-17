@@ -11,10 +11,25 @@
 //============================================================================
 class Image
 {
-public:
-  u_char* data;
+private:
+	u_char* data;
   int width;
   int height;
+
+public:
+  // Getters
+  int getWidth() const;
+  int getHeight() const;
+  u_char* getData() const;
+
+  // Default constructor
+  Image();
+
+  // Copy constructor
+  Image(const Image& old_one);
+
+  // Destructor
+  ~Image();
 
   // Write the image contained in <my_image.data> (of size <my_image.width>
 	// * <my_image.height>) into plain RGB ppm file at <file_name>

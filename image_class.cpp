@@ -5,8 +5,45 @@
 #include "image_class.h"
 
 //============================================================================
-//                           Function definitions
+//                           Methods definitions
 //============================================================================
+int Image::getWidth() const
+{
+  return width;
+}
+
+int Image::getHeight() const
+{
+  return height;
+}
+
+u_char* Image::getData() const
+{
+  return data;
+}
+
+Image::Image()
+{
+  width = 0;
+  height = 0;
+  // A small amount of memory  is allocated at the object creation to 
+  // ensure it can be freed when the object is deleted
+  data = new u_char [1];
+}
+
+Image::Image(const Image& old_one)
+{
+  width = old_one.getWidth();
+  height = old_one.getHeight();
+  data = new u_char [3 * width * height];
+  memcpy(data, old_one.getData(), 3 * width * height * sizeof(*data));
+}
+
+Image::~Image()
+{
+  delete [] data;
+}
+
 void Image::ppm_write_to_file(const char* file_name)
 {
   FILE* file = fopen(file_name, "wb");
@@ -28,6 +65,7 @@ void Image::ppm_read_from_file(const char* file_name)
   fscanf(file, "P6\n%d %d\n255\n", &width, &height);
 
   // Allocate memory according to width and height
+  delete [] data;
   data = new u_char [3 * (width) * (height)];
 
   // Read the actual image data
@@ -57,7 +95,7 @@ void Image::ppm_desaturate()
       assert(grey_lvl >= 0 && grey_lvl <=255);
 
       // Set the corresponding pixel's value in new_image
-      memset(data[3 * (y * width + x)], grey_lvl, 3);
+      memset(&data[3 * (y * width + x)], grey_lvl, 3);
     }
   }
 }
