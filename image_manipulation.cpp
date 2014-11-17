@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "image_struc.h"
+#include "image_class.h"
 #include "image_manipulation.h"
 
 //============================================================================
 //                           Function definitions
 //============================================================================
-void ppm_write_to_file(image my_image, const char* file_name)
+void ppm_write_to_file(Image my_image, const char* file_name)
 {
   FILE* file = fopen(file_name, "wb");
 
@@ -20,7 +20,7 @@ void ppm_write_to_file(image my_image, const char* file_name)
   fclose(file);
 }
 
-void ppm_read_from_file(image& my_image, const char* file_name)
+void ppm_read_from_file(Image& my_image, const char* file_name)
 {
   FILE* file = fopen(file_name, "rb");
   

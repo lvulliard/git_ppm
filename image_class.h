@@ -1,5 +1,5 @@
-#ifndef STRUCT_INCLUDED
-#define STRUCT_INCLUDED
+#ifndef CLASS_INCLUDED
+#define CLASS_INCLUDED
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,13 +7,14 @@
 
 
 //============================================================================
-//                           Struct declaration
+//                           Class declaration
 //============================================================================
-typedef struct
+class Image
 {
+public:
   u_char* data;
   int width;
   int height;
-}image;
+};
 
 #endif

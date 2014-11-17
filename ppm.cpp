@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
   //--------------------------------------------------------------------------
   // Read file "gargouille.ppm" into image (width and height)
   //--------------------------------------------------------------------------
-  image my_image;
+  Image my_image;
 
   ppm_read_from_file(my_image, "gargouille.ppm");
 
@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
   // write it into "gargouille_BW.ppm"
   //--------------------------------------------------------------------------
   // Copy image into image_bw
-  image my_bw_image = my_image;
+  Image my_bw_image = my_image;
   my_bw_image.data = new u_char [3 * my_image.width * my_image.height];
   memcpy(my_bw_image.data, my_image.data, 3 * my_image.width * my_image.height * sizeof(*my_bw_image.data));
 
@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
   // write it into "gargouille_small.ppm"
   //--------------------------------------------------------------------------
   // Copy image into image_small
-  image my_small_image = my_image;
+  Image my_small_image = my_image;
   my_small_image.data = new u_char [3 * my_image.width * my_image.height];
   memcpy(my_small_image.data, my_image.data, 3 * my_image.width * my_image.height * sizeof(*my_small_image.data));
 

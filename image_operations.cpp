@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "image_struc.h"
+#include "image_class.h"
 #include "image_operations.h"
 
 //============================================================================
 //                           Function definitions
 //============================================================================
-void ppm_desaturate(image my_image)
+void ppm_desaturate(Image my_image)
 {
   int x, y;
 
@@ -34,7 +34,7 @@ void ppm_desaturate(image my_image)
   }
 }
 
-void ppm_shrink(image& my_image, int factor)
+void ppm_shrink(Image& my_image, int factor)
 {
   // Compute new image size and allocate memory for the new image
   int new_width   = (my_image.width) / factor;
