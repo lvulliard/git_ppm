@@ -2,36 +2,35 @@
 #include <stdlib.h>
 #include <string.h>
 #include "image_class.h"
-#include "image_manipulation.h"
 
 //============================================================================
 //                           Function definitions
 //============================================================================
-void ppm_write_to_file(Image my_image, const char* file_name)
+void Image::ppm_write_to_file(const char* file_name)
 {
   FILE* file = fopen(file_name, "wb");
 
   // Write header
-  fprintf(file, "P6\n%d %d\n255\n", my_image.width, my_image.height);
+  fprintf(file, "P6\n%d %d\n255\n", width, height);
 
   // Write pixels
-  fwrite(my_image.data, 3,my_image.width*my_image.height, file);
+  fwrite(data, 3,width*height, file);
 
   fclose(file);
 }
 
-void ppm_read_from_file(Image& my_image, const char* file_name)
+void Image::ppm_read_from_file(const char* file_name)
 {
   FILE* file = fopen(file_name, "rb");
   
   // Read file header
-  fscanf(file, "P6\n%d %d\n255\n", &my_image.width, &my_image.height);
+  fscanf(file, "P6\n%d %d\n255\n", &width, &height);
 
   // Allocate memory according to width and height
-  my_image.data = new u_char [3 * (my_image.width) * (my_image.height)];
+  data = new u_char [3 * (width) * (height)];
 
   // Read the actual image data
-  fread(my_image.data, 3, (my_image.width) * (my_image.height), file);
+  fread(data, 3, (width) * (height), file);
 
   fclose(file);
 }

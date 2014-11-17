@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "image_manipulation.h"
+#include "image_class.h"
 #include "image_operations.h"
 
 
@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
   //--------------------------------------------------------------------------
   Image my_image;
 
-  ppm_read_from_file(my_image, "gargouille.ppm");
+  my_image.ppm_read_from_file("gargouille.ppm");
 
 
   //--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
   ppm_desaturate(my_bw_image);
 
   // Write the desaturated image into "gargouille_BW.ppm"
-  ppm_write_to_file(my_bw_image, "gargouille_BW.ppm");
+  my_bw_image.ppm_write_to_file("gargouille_BW.ppm");
 
   // Free the desaturated image
   delete [] my_bw_image.data;
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
   ppm_shrink(my_small_image, 2);
 
   // Write the desaturated image into "gargouille_small.ppm"
-  ppm_write_to_file(my_small_image,"gargouille_small.ppm");
+  my_small_image.ppm_write_to_file("gargouille_small.ppm");
 
   // Free the not yet freed images
   delete [] my_image.data;
