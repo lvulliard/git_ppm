@@ -1,16 +1,16 @@
 all:ppm
 
 ppm: ppm.o image_manipulation.o image_operations.o
-	gcc -o ppm ppm.o image_manipulation.o image_operations.o
+	g++ -o ppm ppm.o image_manipulation.o image_operations.o
 
-ppm.o: ppm.c image_manipulation.h image_struc.h image_operations.h
-	gcc -o ppm.o -c ppm.c -Wall
+ppm.o: ppm.cpp image_manipulation.h image_struc.h image_operations.h
+	g++ -o ppm.o -c ppm.cpp -Wall
 
-image_manipulation.o: image_manipulation.c image_manipulation.h image_struc.h
-	gcc -o image_manipulation.o -c image_manipulation.c -Wall
+image_manipulation.o: image_manipulation.cpp image_manipulation.h image_struc.h
+	g++ -o image_manipulation.o -c image_manipulation.cpp -Wall
 
-image_operations.o: image_operations.c image_operations.h image_struc.h
-	gcc -o image_operations.o -c image_operations.c -Wall
+image_operations.o: image_operations.cpp image_operations.h image_struc.h
+	g++ -o image_operations.o -c image_operations.cpp -Wall
 
 clean:
 	rm -rf *.o
