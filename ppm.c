@@ -41,8 +41,8 @@ void ppm_read_from_file(int *width, int *height, u_char** data, FILE* file);
 void ppm_read_from_file2(int *width, int *height, u_char** data, char* file_name);
 
 // Same function as ppm_read_from_file2, reading in a struct image
-void ppm_read_from_file3(image my_image, char* file_name);
-
+void ppm_read_from_file3(image* my_image, char* file_name);
+ 
 // Desaturate (transform to B&W) <image> (of size <width> * <height>)
 void ppm_desaturate(u_char* image, int width, int height);
 
@@ -60,10 +60,9 @@ int main(int argc, char* argv[])
   //--------------------------------------------------------------------------
   // Read file "gargouille.ppm" into image (width and height)
   //--------------------------------------------------------------------------
-  u_char* image = NULL;
-  int width;
-  int height;
-  ppm_read_from_file2(&width, &height, &image, "gargouille.ppm");
+  image my_image;
+
+  ppm_read_from_file3(&my_image, "gargouille.ppm");
 
 
   //--------------------------------------------------------------------------
@@ -71,19 +70,18 @@ int main(int argc, char* argv[])
   // write it into "gargouille_BW.ppm"
   //--------------------------------------------------------------------------
   // Copy image into image_bw
-  int width_bw  = width;
-  int height_bw = height;
-  u_char* image_bw = (u_char*) malloc(3 * width * height * sizeof(*image_bw));
-  memcpy(image_bw, image, 3 * width * height * sizeof(*image_bw));
+  image my_bw_image = my_image;
+  my_bw_image.data = (u_char*) malloc(3 * my_image.width * my_image.height * sizeof(*my_bw_image.data));
+  memcpy(my_bw_image.data, my_image.data, 3 * my_image.width * my_image.height * sizeof(*my_bw_image.data));
 
   // Desaturate image_bw
-  ppm_desaturate(image_bw, width, height);
+  ppm_desaturate(my_bw_image.data, my_bw_image.width, my_bw_image.height);
 
   // Write the desaturated image into "gargouille_BW.ppm"
-  ppm_write_to_file2(width, height, image_bw, "gargouille_BW.ppm");
+  ppm_write_to_file2(my_bw_image.width, my_bw_image.height, my_bw_image.data, "gargouille_BW.ppm");
 
   // Free the desaturated image
-  free(image_bw);
+  free(my_bw_image.data);
 
 
   //--------------------------------------------------------------------------
@@ -91,19 +89,19 @@ int main(int argc, char* argv[])
   // write it into "gargouille_small.ppm"
   //--------------------------------------------------------------------------
   // Copy image into image_small
-  int width_small  = width;
-  int height_small = height;
+  int width_small  = my_image.width;
+  int height_small = my_image.height;
   u_char* image_small = (u_char*) malloc(3 * width_small * height_small * sizeof(*image_small));
-  memcpy(image_small, image, 3 * width_small * height_small * sizeof(*image_small));
+  memcpy(image_small, my_image.data, 3 * width_small * height_small * sizeof(*image_small));
 
-  // Shrink image_small size 2-fold
+  // Shrink image_sm&all size 2-fold
   ppm_shrink(&image_small, &width_small, &height_small, 2);
 
   // Write the desaturated image into "gargouille_small.ppm"
   ppm_write_to_file2(width_small, height_small, image_small,"gargouille_small.ppm");
 
   // Free the not yet freed images
-  free(image);
+  free(my_image.data);
   free(image_small);
 
   return 0;
@@ -179,11 +177,11 @@ void ppm_read_from_file2(int *width, int *height, u_char** data, char* file_name
   fclose(file);
 }
 
-void ppm_read_from_file3(image my_image, char* file_name)
+void ppm_read_from_file3(image* my_image, char* file_name)
 {
-  int* width = &my_image.width;
-  int* height = &my_image.height;
-  u_char** data = &my_image.data;
+  int* width = &((*my_image).width);
+  int* height = &((*my_image).height);
+  u_char** data = &((*my_image).data);
   FILE* file = fopen(file_name, "rb");
   
   // Read file header
