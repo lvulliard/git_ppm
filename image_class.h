@@ -25,6 +25,13 @@ public:
 	// accordingly
 	// Warning: data is malloc_ed, don't forget to free it
 	void ppm_read_from_file(const char* file_name);
+
+	// Desaturate (transform to B&W) <my_image>
+	void ppm_desaturate();
+
+	// Shrink image (of original size <my_image.width> * <my_image.height>)
+	// by factor <factor> (<my_image> updated accordingly)
+	void ppm_shrink(int factor);
 };
 
 #endif

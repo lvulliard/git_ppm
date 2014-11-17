@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "image_class.h"
-#include "image_operations.h"
 
 
 //============================================================================
@@ -26,7 +25,7 @@ int main(int argc, char* argv[])
   memcpy(my_bw_image.data, my_image.data, 3 * my_image.width * my_image.height * sizeof(*my_bw_image.data));
 
   // Desaturate image_bw
-  ppm_desaturate(my_bw_image);
+  my_bw_image.ppm_desaturate();
 
   // Write the desaturated image into "gargouille_BW.ppm"
   my_bw_image.ppm_write_to_file("gargouille_BW.ppm");
@@ -45,7 +44,7 @@ int main(int argc, char* argv[])
   memcpy(my_small_image.data, my_image.data, 3 * my_image.width * my_image.height * sizeof(*my_small_image.data));
 
   // Shrink image_sm&all size 2-fold
-  ppm_shrink(my_small_image, 2);
+  my_small_image.ppm_shrink( 2);
 
   // Write the desaturated image into "gargouille_small.ppm"
   my_small_image.ppm_write_to_file("gargouille_small.ppm");
