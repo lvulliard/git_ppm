@@ -34,11 +34,11 @@ void ppm_desaturate(image my_image)
   }
 }
 
-void ppm_shrink(image* my_image, int factor)
+void ppm_shrink(image& my_image, int factor)
 {
   // Compute new image size and allocate memory for the new image
-  int new_width   = ((*my_image).width) / factor;
-  int new_height  = ((*my_image).height) / factor;
+  int new_width   = (my_image.width) / factor;
+  int new_height  = (my_image.height) / factor;
 
   u_char* new_image = new u_char [3 * new_width * new_height];
 
@@ -63,7 +63,7 @@ void ppm_shrink(image* my_image, int factor)
       // model image corresponding to the pixel we are creating
       int x0 = x * factor;
       int y0 = y * factor;
-      int i0 = 3 * (y0 * ((*my_image).width) + x0);
+      int i0 = 3 * (y0 * (my_image.width) + x0);
 
       // Compute RGB values for the new pixel
       int dx, dy;
@@ -73,12 +73,12 @@ void ppm_shrink(image* my_image, int factor)
         {
           // Compute the offset of the current pixel (in the model image)
           // with regard to the top-left pixel of the current "set of pixels"
-          int delta_i = 3 * (dy * ((*my_image).width) + dx);
+          int delta_i = 3 * (dy * (my_image.width) + dx);
 
           // Accumulate RGB values
-          red   += ((*my_image).data)[i0+delta_i];
-          green += ((*my_image).data)[i0+delta_i+1];
-          blue  += ((*my_image).data)[i0+delta_i+2];
+          red   += (my_image.data)[i0+delta_i];
+          green += (my_image.data)[i0+delta_i+1];
+          blue  += (my_image.data)[i0+delta_i+2];
         }
       }
 
@@ -95,10 +95,10 @@ void ppm_shrink(image* my_image, int factor)
   }
 
   // Update image size
-  (*my_image).width  = new_width;
-  (*my_image).height = new_height;
+  my_image.width  = new_width;
+  my_image.height = new_height;
 
   // Update image
-  delete [] (*my_image).data;
-  (*my_image).data = new_image;
+  delete [] my_image.data;
+  my_image.data = new_image;
 }
