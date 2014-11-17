@@ -31,7 +31,7 @@ void ppm_read_from_file(image* my_image, char* file_name)
   fscanf(file, "P6\n%d %d\n255\n", width, height);
 
   // Allocate memory according to width and height
-  *data = (u_char*) malloc(3 * (*width) * (*height) * sizeof(**data));
+  *data = new u_char [3 * (*width) * (*height)];
 
   // Read the actual image data
   fread(*data, 3, (*width) * (*height), file);

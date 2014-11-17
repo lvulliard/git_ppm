@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
   //--------------------------------------------------------------------------
   // Copy image into image_bw
   image my_bw_image = my_image;
-  my_bw_image.data = (u_char*) malloc(3 * my_image.width * my_image.height * sizeof(*my_bw_image.data));
+  my_bw_image.data = new u_char [3 * my_image.width * my_image.height];
   memcpy(my_bw_image.data, my_image.data, 3 * my_image.width * my_image.height * sizeof(*my_bw_image.data));
 
   // Desaturate image_bw
@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
   ppm_write_to_file(my_bw_image, "gargouille_BW.ppm");
 
   // Free the desaturated image
-  free(my_bw_image.data);
+  delete [] my_bw_image.data;
 
 
   //--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
   //--------------------------------------------------------------------------
   // Copy image into image_small
   image my_small_image = my_image;
-  my_small_image.data = (u_char*) malloc(3 * my_image.width * my_image.height * sizeof(*my_bw_image.data));
+  my_small_image.data = new u_char [3 * my_image.width * my_image.height];
   memcpy(my_small_image.data, my_image.data, 3 * my_image.width * my_image.height * sizeof(*my_small_image.data));
 
   // Shrink image_sm&all size 2-fold
@@ -51,8 +51,8 @@ int main(int argc, char* argv[])
   ppm_write_to_file(my_small_image,"gargouille_small.ppm");
 
   // Free the not yet freed images
-  free(my_image.data);
-  free(my_small_image.data);
+  delete [] my_image.data;
+  delete [] my_small_image.data;
 
   return 0;
 }

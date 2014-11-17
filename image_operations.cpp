@@ -39,7 +39,8 @@ void ppm_shrink(image* my_image, int factor)
   // Compute new image size and allocate memory for the new image
   int new_width   = ((*my_image).width) / factor;
   int new_height  = ((*my_image).height) / factor;
-  u_char* new_image = (u_char*) malloc(3 * new_width * new_height * sizeof(*new_image));
+
+  u_char* new_image = new u_char [3 * new_width * new_height];
 
   // Precompute factor^2 (for performance reasons)
   int factor_squared = factor * factor;
@@ -98,6 +99,6 @@ void ppm_shrink(image* my_image, int factor)
   (*my_image).height = new_height;
 
   // Update image
-  free((*my_image).data);
+  delete [] (*my_image).data;
   (*my_image).data = new_image;
 }
